@@ -1,0 +1,137 @@
+
+:root{
+    /* Color Global */
+    --bg-dark: #161616;
+    --navbar-dark: #1F1F1F;
+    --dark-gray: #3A3A3A;
+    --form-gray: #404040;
+    --form-border-gray: #D2D2D2;
+    --text-form-placeholder : #B1B1B1;
+    --gray: #B1B1B1;
+    --orange: #F58033;
+    --green: #0ACF83;
+    --red:#EE4622;
+    --red-bold: #FF0000;
+  }
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+    background-color: #555;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    border-radius: 50%;
+  }
+
+  .open-button img{
+      width: 30px;
+      fill: var(--orange);
+  }
+  
+  /* The popup chat - hidden by default */
+  .chat-popup {
+    position: fixed;
+    bottom: 10px;
+    right: 15px;
+    width: 400px;
+    height: 310px;
+    z-index: 9;
+  }
+  
+  /* Add styles to the form container */
+  .form-container {
+    max-width: 100%;
+    height: 100%;
+    padding: 5px 5px;
+    background-color: var(--dark-gray);
+    border-radius: 5px;
+    font-size: small !important;
+  }
+  
+  
+  /* Add a red background color to the cancel button */
+  .form-container .cancel {
+    color: white;
+    font-weight:bold;
+    background-color: var(--red);
+  }
+  
+  /* Add some hover effects to buttons */
+  .form-container .btn:hover, .open-button:hover {
+    opacity: 1;
+  }
+
+  /* CONTACT */
+  .btn-contact{
+      border: none;
+      border-radius: 5px;
+  }
+  .list-contact{
+      border-right:  1px solid var(--dark-gray) !important;
+      height: 60vh;
+      overflow-y: auto;
+    }
+
+
+  /* CHAT */
+
+  #chat-messages *{
+      font-size: small;
+  }
+  
+  .chat-me {
+    position: relative;
+    background: #262626;
+    border-radius: 5px;
+    padding: 2px 10px;
+    line-height: 22px;
+    max-width: 65%;
+    text-align: justify !important;
+  }
+  
+  .chat-me::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    right: -10px;
+    border-top: 5px solid transparent;
+    border-left: 10px solid #262626;
+    border-bottom: 5px solid transparent;
+  }
+
+  .chat-other {
+    position: relative;
+    left: 10px;
+    background: #575757;
+    border-radius: 5px;
+    padding: 2px 10px;
+    line-height: 22px;
+    max-width: 70%;
+    text-align: justify !important;
+  }
+  
+  .chat-other::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: -10px;
+    border-top: 5px solid transparent;
+    border-right: 10px solid #575757;
+    border-bottom: 5px solid transparent;
+  }
+
+  .chat-height{
+      height: 200px;
+  }
+
+  
+/* Complain */
+.complain-height{
+    height: 258.5px;
+  }
