@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Navbar, Nav, Container, Dropdown, Button, Popover, OverlayTrigger } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/icon/logo-shapes.svg";
 import Avatar from "react-avatar";
 
@@ -12,15 +12,28 @@ import Logout from "../assets/icon/logout.svg";
 import Login from "./modal/Login";
 import Register from "./modal/Register";
 
-export default function NavbarWeb({ title }) {
+import { UserContext } from "../context/userContext";
+
+export default function NavbarWeb({ title, nameUser }) {
+  console.log(nameUser);
+  const navigate = useNavigate();
+
+  // Init user context
+  const [state, dispatch] = useContext(UserContext);
+  // console.log("userContext", state);
+
   const [isClickLogin, setIsClickLogin] = useState(false);
   const [isClickRegister, setIsClickRegister] = useState(false);
 
   const handleClickLogin = () => setIsClickLogin(!isClickLogin);
   const handleClickRegister = () => setIsClickRegister(!isClickRegister);
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const logout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/");
+  };
 
   // dropdown profile
   const content = (
@@ -51,21 +64,16 @@ export default function NavbarWeb({ title }) {
           ) : title !== "Pricing" ? (
             <>
               <li className="mb-3">
-                <Link to="/transactions">
-                  <span className="fw-bold ">transaction</span>
-                </Link>
-              </li>
-              <li className="mb-3">
                 <Link to="/pay">
                   <img src={Pay} alt="" width="30" className="me-2" />
                   <span className="fw-bold ">Pay</span>
                 </Link>
               </li>
               <li>
-                <Link to="/">
-                  <img src={Logout} alt="" width="30" className="me-2" />
+                <button className="btn-transparent" onClick={logout}>
+                  <img src={Logout} alt="" width="25" className="me-2" />
                   <span className="fw-bold ">Logout</span>
-                </Link>
+                </button>
               </li>
             </>
           ) : (
@@ -77,10 +85,10 @@ export default function NavbarWeb({ title }) {
                 </Link>
               </li>
               <li>
-                <Link to="/">
-                  <img src={Logout} alt="" width="30" className="me-2" />
+                <button className="btn-transparent" onClick={logout}>
+                  <img src={Logout} alt="" width="25" className="me-2" />
                   <span className="fw-bold ">Logout</span>
-                </Link>
+                </button>
               </li>
             </>
           )}
@@ -91,7 +99,7 @@ export default function NavbarWeb({ title }) {
 
   return (
     <>
-      {!isLogin ? (
+      {!state.isLogin ? (
         <>
           <Navbar fixed="top" variant="dark" expand="sm">
             <Container>
@@ -128,7 +136,7 @@ export default function NavbarWeb({ title }) {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ms-auto">
                   <OverlayTrigger trigger="click" placement="bottom" overlay={content}>
-                    <Avatar color="#3A3A3A" name="Kevin Williams" size="40" round={true} />
+                    <Avatar color="#3A3A3A" name={nameUser} size="40" round={true} />
                   </OverlayTrigger>
                 </Nav>
               </Navbar.Collapse>

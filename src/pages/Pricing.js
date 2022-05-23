@@ -1,26 +1,125 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container, Card, Button, Row, Col } from "react-bootstrap";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+
+import { API } from "../config/api";
+import { UserContext } from "../context/userContext";
 
 const Pricing = () => {
+  const navigate = useNavigate();
+
+  // Untuk Navbar Admin
+  const [state, dispatch] = useContext(UserContext);
+  const [user, setUser] = useState({});
+  console.log(user);
+
+  const loadUser = async () => {
+    try {
+      const response = await API.get(`/user/${state.user.id}`);
+      setUser(response.data.user.name);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  // ===========================================================
+
   const title = "Pricing";
   document.title = "Dumbsound | " + title;
+
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
+  // Create config Snap payment with useEffect, untuk menampilkan modal pembayaran
+  useEffect(() => {
+    //change this to the script source you want to load, for example this is snap.js sandbox env
+    const midtransScriptUrl = "https://app.sandbox.midtrans.com/snap/snap.js";
+    //change this according to your client-key
+    const myMidtransClientKey = "SB-Mid-client-WDT3L6j4e2r31Gf8";
+
+    let scriptTag = document.createElement("script");
+    scriptTag.src = midtransScriptUrl;
+    // optional if you want to set script attribute
+    // for example snap.js have data-client-key attribute
+    scriptTag.setAttribute("data-client-key", myMidtransClientKey);
+
+    document.body.appendChild(scriptTag);
+    return () => {
+      document.body.removeChild(scriptTag);
+    };
+  }, []);
+
+  const handleBuy = async (price) => {
+    setLoadingSubmit(true);
+    try {
+      // Get data from product
+      const data = {
+        price: price,
+      };
+
+      const body = JSON.stringify(data);
+
+      // Configuration
+      const config = {
+        headers: {
+          Authorization: "Basic " + localStorage.token,
+          "Content-type": "application/json",
+        },
+      };
+
+      // Insert transaction data
+      const response = await API.post("/transaction", body, config);
+      console.log("Response Transaction: ", response);
+
+      // Create variabel for store token payment from response
+      const token = response.data.payment.token;
+
+      // Modify handle buy to display Snap payment page
+      window.snap.pay(token, {
+        onSuccess: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          // navigate("/");
+        },
+        onPending: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+          // navigate("/");
+        },
+        onError: function (result) {
+          /* You may add your own implementation here */
+          console.log(result);
+        },
+        onClose: function () {
+          /* You may add your own implementation here */
+          alert("you closed the popup without finishing the payment");
+        },
+      });
+      setLoadingSubmit(false);
+    } catch (error) {
+      setLoadingSubmit(false);
+      console.log(error);
+    }
+  };
+
   return (
     <>
-      <Navbar title={title} />
+      <Navbar title={title} nameUser={user} />
 
       <Container className=" vh-100 d-flex justify-content-center align-items-center">
         <Row>
           <Col md={12} className="text-center">
             <h2 className="fw-bold mb-4">Subscribe</h2>
             <p>
-              Bayar Sekarang dan nikmati streaming music yang kekinian dari <span className="text-var-red fw-bold">DUMB</span>
+              Berlangganan Sekarang dan nikmati streaming music yang kekinian dari <span className="text-var-red fw-bold">DUMB</span>
               <span className="fw-bold">SOUND</span>
             </p>
           </Col>
           <Col md={12} className="d-flex justify-content-center">
             <Card className="card-price bg-var-dark-gray text-center">
-              <Card.Header as="h5">Subscribe</Card.Header>
+              <Card.Header as="h5">Raguler</Card.Header>
               <Card.Body>
                 <Card.Title>
                   <span className="fs-3 text-var-red">Rp.20.000</span>
@@ -34,7 +133,10 @@ const Pricing = () => {
                     <li>Help center access</li>
                   </ul>
                 </Card.Text>
-                <button className="btn-red px-5"> Buy</button>
+                <button className="btn-red px-5" onClick={() => handleBuy("20000")}>
+                  {" "}
+                  Buy
+                </button>
               </Card.Body>
             </Card>
           </Col>

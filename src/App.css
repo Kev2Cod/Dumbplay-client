@@ -51,6 +51,11 @@
   background-color: var(--dark-gray) !important;
 }
 
+.btn-transparent{
+  border: none;
+  background-color: transparent;
+}
+
 /* Button */
 .btn-login{
   background-color: transparent;
@@ -120,6 +125,44 @@
   box-shadow: rgba(174, 39, 39, 0.271) 0 6px 12px !important;
 }
 
+.btn-green {
+  appearance: none;
+  backface-visibility: hidden;
+  background-color: var(--green) !important;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: rgba(39, 174, 48, 0.15) 0 4px 9px !important;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px ;
+  text-decoration: none;
+  transform: translate3d(0, 0, 0);
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.btn-green:hover {
+  background-color: #00dc72 !important;
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: .35s;
+}
+
+.btn-green:active {
+  transform: translateY(2px);
+  transition-duration: .35s;
+}
+
+.btn-green:hover {
+  box-shadow: rgba(39, 174, 61, 0.271) 0 6px 12px !important;
+}
+
 /* Form */
 .form-attach{
   display: flex;
@@ -163,7 +206,49 @@
   color: white !important;
 }
 
+/* Status Transaction */
+.status-transaction-success{
+  color: var(--green) !important ;
+  text-transform: capitalize;
+}
+
+.status-transaction-pending{
+  color: #b6910c !important ;
+  text-transform: capitalize;
+}
+
+.status-transaction-failed{
+  color: var(--red) !important ;
+  text-transform: capitalize;
+}
 
 
+/* Music Player */
+.navPlay{
+  background-color: #404040b7;
+}
+
+.player{
+  background-color: transparent !important;
+  color: white !important ;
+  box-shadow: none !important;
+}
+
+.player-thumbnail{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.img-music{
+  width: 50px;
+  height: 50px;
+  
+}
+
+
+.judul-music{
+  width: 10rem;
+}
 
 

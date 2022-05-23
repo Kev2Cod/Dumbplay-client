@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Navbar, Nav, Container, Dropdown, Button, Popover, OverlayTrigger } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/icon/logo-shapes.svg";
 import Avatar from "react-avatar";
 
@@ -9,18 +9,23 @@ import AddMusic from "../assets/icon/add-music.svg";
 import AddArtis from "../assets/icon/add-artis.svg";
 import Logout from "../assets/icon/logout.svg";
 
-import Login from "./modal/Login";
-import Register from "./modal/Register";
+import { UserContext } from "../context/userContext";
 
-export default function NavbarAdmin({ title }) {
+export default function NavbarAdmin({ title, nameUser }) {
+  const navigate = useNavigate();
+
+  const [state, dispatch] = useContext(UserContext);
+  // console.log("userContext", state);
+
+  const logout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/");
+  };
+
   const [isClickLogin, setIsClickLogin] = useState(false);
   const [isClickRegister, setIsClickRegister] = useState(false);
-
-  const handleClickLogin = () => setIsClickLogin(!isClickLogin);
-  const handleClickRegister = () => setIsClickRegister(!isClickRegister);
-
-  const [isLogin, setIsLogin] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   // dropdown profile
   const content = (
@@ -42,16 +47,16 @@ export default function NavbarAdmin({ title }) {
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/">
+                <button className="btn-transparent" onClick={logout}>
                   <img src={Logout} alt="" width="25" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Logout</span>
-                </Link>
+                  <span className="fw-bold ">Logout</span>
+                </button>
               </li>
             </>
           ) : title === "Add Music" ? (
             <>
               <li className="mb-3">
-                <Link to="/transaction">
+                <Link to="/transactions">
                   <img src={Pay} alt="" width="25" className="me-2" />
                   <span className="fw-bold text-decoration-none text-white">Transactions</span>
                 </Link>
@@ -63,10 +68,10 @@ export default function NavbarAdmin({ title }) {
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/">
+                <button className="btn-transparent" onClick={logout}>
                   <img src={Logout} alt="" width="25" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Logout</span>
-                </Link>
+                  <span className="fw-bold ">Logout</span>
+                </button>
               </li>
             </>
           ) : (
@@ -78,16 +83,16 @@ export default function NavbarAdmin({ title }) {
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/transaction">
+                <Link to="/transactions">
                   <img src={Pay} alt="" width="25" className="me-2" />
                   <span className="fw-bold text-decoration-none text-white">Transactions</span>
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/">
+                <button className="btn-transparent" onClick={logout}>
                   <img src={Logout} alt="" width="25" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Logout</span>
-                </Link>
+                  <span className="fw-bold ">Logout</span>
+                </button>
               </li>
             </>
           )}
@@ -108,7 +113,7 @@ export default function NavbarAdmin({ title }) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <OverlayTrigger trigger="click" placement="bottom" overlay={content}>
-                <Avatar color="#3A3A3A" name="Kevin Williams" size="40" round={true} />
+                <Avatar color="#3A3A3A" name={nameUser} size="40" round={true} />
               </OverlayTrigger>
             </Nav>
           </Navbar.Collapse>
