@@ -121,6 +121,20 @@ const AddMusic = () => {
               </label>
             </div>
           </div>
+          {preview && (
+            <div>
+              <img
+                src={preview}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  objectFit: "cover",
+                  marginBlock: "1rem",
+                }}
+                alt=""
+              />
+            </div>
+          )}
 
           <div className="input-group mb-3">
             <input type="number" placeholder="Year" name="year" onChange={handleChange} className="form-control bg-var-dark text-white border-form" required />

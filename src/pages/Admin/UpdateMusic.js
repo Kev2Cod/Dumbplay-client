@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import NavbarAdmin from "../../components/NavbarAdmin";
 
@@ -9,8 +9,8 @@ import { UserContext } from "../../context/userContext";
 import { API } from "../../config/api";
 
 const AddMusic = () => {
-  // Untuk Navbar Admin
-  // useState
+  const { id } = useParams();
+
   const [state, dispatch] = useContext(UserContext);
   const [user, setUser] = useState({});
 
@@ -44,6 +44,30 @@ const AddMusic = () => {
   });
 
   const { title, year, thumbnail, attache, idArtis } = form;
+
+  const fetchMusic = async () => {
+    try {
+      const config = {
+        headers: {
+          Authorization: "Basic " + localStorage.token,
+        },
+      };
+      const response = await API.get("/music/" + id, config);
+      console.log(response);
+
+      setForm({
+        title: response.data.data.title,
+        thumbnail: response.data.data.thumbnail,
+        year: response.data.data.year,
+        attache: response.data.data.attache,
+        idArtis: response.data.data.idArtis,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(form);
 
   // fetch Artis
   const fetchArtis = async () => {
@@ -81,13 +105,15 @@ const AddMusic = () => {
       console.log(form);
 
       const formData = new FormData();
+      if (preview) {
+        formData.set("imageSong", form?.thumbnail[0], form?.thumbnail[0]?.name);
+      }
       formData.set("title", form.title);
       formData.set("year", form.year);
       formData.set("fileSong", form.attache[0], form.attache[0].name);
-      formData.set("imageSong", form.thumbnail[0], form.thumbnail[0].name);
       formData.set("idArtis", form.idArtis);
 
-      const response = await API.post("/add-music", formData, config);
+      const response = await API.patch("/music/" + id, formData, config);
       console.log(response);
 
       setLoadingSubmit(false);
@@ -102,6 +128,10 @@ const AddMusic = () => {
     fetchArtis();
   }, []);
 
+  useEffect(() => {
+    fetchMusic();
+  }, []);
+
   return (
     <>
       <NavbarAdmin title={titleWeb} nameUser={user} />
@@ -111,7 +141,7 @@ const AddMusic = () => {
 
           <div className="d-flex mb-3">
             <div className="input-group me-3 ">
-              <input type="text" placeholder="Title" name="title" onChange={handleChange} className="form-control bg-var-dark text-white border-form" required />
+              <input type="text" placeholder="Title" name="title" value={title} onChange={handleChange} className="form-control bg-var-dark text-white border-form" required />
             </div>
 
             <div>
@@ -122,8 +152,36 @@ const AddMusic = () => {
             </div>
           </div>
 
+          {!preview ? (
+            <div>
+              <img
+                src={thumbnail}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  objectFit: "cover",
+                  marginBlock: "1rem",
+                }}
+                alt=""
+              />
+            </div>
+          ) : (
+            <div>
+              <img
+                src={preview}
+                style={{
+                  maxWidth: "150px",
+                  maxHeight: "150px",
+                  objectFit: "cover",
+                  marginBlock: "1rem",
+                }}
+                alt=""
+              />
+            </div>
+          )}
+
           <div className="input-group mb-3">
-            <input type="number" placeholder="Year" name="year" onChange={handleChange} className="form-control bg-var-dark text-white border-form" required />
+            <input type="number" placeholder="Year" name="year" value={year} onChange={handleChange} className="form-control bg-var-dark text-white border-form" required />
           </div>
 
           <div className="input-group mb-3">

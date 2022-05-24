@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { Container } from "react-bootstrap";
 import "../../styles/loading.css";
@@ -11,6 +11,7 @@ import { API } from "../../config/api";
 
 const AddArtis = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   // Untuk Navbar
   const [state, dispatch] = useContext(UserContext);
   const [user, setUser] = useState({});
@@ -42,6 +43,22 @@ const AddArtis = () => {
     startCareer: "",
   });
 
+  const fetchArtis = async () => {
+    const config = {
+      headers: {
+        Authorization: "Basic " + localStorage.token,
+      },
+    };
+    const response = await API.get("/artis/" + id, config);
+    console.log(response.data.data);
+    setForm({
+      name: response.data.data.name,
+      old: response.data.data.old,
+      type: response.data.data.type,
+      startCareer: response.data.data.startCareer,
+    });
+  };
+
   const { name, old, type, startCareer } = form;
 
   // Handle change data on form
@@ -60,11 +77,13 @@ const AddArtis = () => {
 
       const config = {
         headers: {
+          Authorization: "Basic " + localStorage.token,
           "Content-type": "application/json",
         },
       };
+
       const body = JSON.stringify(form);
-      const response = await API.post("/add-artis", body, config);
+      const response = await API.patch("/artis/" + id, body, config);
       console.log("berhasi!", response);
       navigate("/list-artis");
     } catch (error) {
@@ -72,6 +91,10 @@ const AddArtis = () => {
       setLoadingSubmit(false);
     }
   };
+
+  useEffect(() => {
+    fetchArtis();
+  }, []);
 
   return (
     <>

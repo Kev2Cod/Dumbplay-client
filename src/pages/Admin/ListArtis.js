@@ -79,7 +79,9 @@ const ListArtis = () => {
                 <td>{item.type}</td>
                 <td>{item.startCareer}</td>
                 <td>
-                  <button className="btn-green text-white me-2">Edit</button>
+                  <button onClick={() => handleUpdate(item.id)} className="btn-green text-white me-2">
+                    Edit
+                  </button>
                   <button onClick={() => deleteMusic(item.id)} className="btn-red text-white">
                     Delete
                   </button>
