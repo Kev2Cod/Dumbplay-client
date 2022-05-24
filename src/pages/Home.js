@@ -69,7 +69,7 @@ export default function Home() {
           ) : (
             <>
               {/* Sudah Login */}
-              {!state.user.subscribe ? (
+              {!state.user.subscribe === 1 ? (
                 // belum berlangganan
                 <>
                   {musics?.map((item) => (
@@ -81,9 +81,8 @@ export default function Home() {
                         <span className="fw-bold ">{item.title}</span>
                         <span>{item.year}</span>
                       </div>
-                      <div className="d-flex justify-content-between mt-2 ">
+                      <div className="d-flex justify-content-start mt-2 ">
                         <span className="text-small">88rising</span>
-                        <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
                       </div>
                     </Card>
                   ))}
