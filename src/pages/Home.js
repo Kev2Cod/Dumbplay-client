@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Img from "../assets/image/Jumbotron.png";
 import { Card, Navbar as NavbarMusic } from "react-bootstrap";
-import { Link, useInRouterContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
 import { useQuery } from "react-query";
 

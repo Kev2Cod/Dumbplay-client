@@ -10,22 +10,8 @@ const Pricing = () => {
   const navigate = useNavigate();
 
   // Untuk Navbar Admin
-  const [state, dispatch] = useContext(UserContext);
-  const [user, setUser] = useState({});
-  console.log(user);
-
-  const loadUser = async () => {
-    try {
-      const response = await API.get(`/user/${state.user.id}`);
-      setUser(response.data.user.name);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    loadUser();
-  }, []);
-
-  // ===========================================================
+  const [state] = useContext(UserContext);
+  console.log(state.user.subscribe);
 
   const title = "Pricing";
   document.title = "Dumbsound | " + title;
@@ -81,12 +67,12 @@ const Pricing = () => {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          // navigate("/");
+          navigate("/");
         },
         onPending: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          // navigate("/");
+          navigate("/");
         },
         onError: function (result) {
           /* You may add your own implementation here */
@@ -106,83 +92,91 @@ const Pricing = () => {
 
   return (
     <>
-      <Navbar title={title} nameUser={user} />
+      <Navbar title={title} nameUser={state.user.name} />
 
       <Container className=" vh-100 d-flex justify-content-center align-items-center">
-        <Row>
-          <Col md={12} className="text-center">
-            <h2 className="fw-bold mb-4">Subscribe</h2>
-            <p>
-              Berlangganan Sekarang dan nikmati streaming music yang kekinian dari <span className="text-var-red fw-bold">DUMB</span>
-              <span className="fw-bold">SOUND</span>
-            </p>
-          </Col>
-          <Col md={12} className="d-flex justify-content-center gap-3">
-            <Card className="card-price bg-var-dark-gray text-center">
-              <Card.Header as="h5">Paket Small</Card.Header>
-              <Card.Body>
-                <Card.Title>
-                  <span className="fs-3 text-var-red">Rp.7.500</span>
-                  <span className="">/7 Hari</span>
-                </Card.Title>
-                <Card.Text>
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li>Music Kualitas Terbaik</li>
-                    <li>Bebas Akses Music Selama 7 Hari</li>
-                    <li>Help center access</li>
-                    <li>-</li>
-                  </ul>
-                </Card.Text>
-                <button className="btn-red px-5" onClick={() => handleBuy("7500")}>
-                  {" "}
-                  Buy
-                </button>
-              </Card.Body>
-            </Card>
+        {!state.user.subscribe ? (
+          <>
+            <Row>
+              <Col md={12} className="text-center">
+                <h2 className="fw-bold mb-4">Subscribe</h2>
+                <p>
+                  Berlangganan Sekarang dan nikmati streaming music yang kekinian dari <span className="text-var-red fw-bold">DUMB</span>
+                  <span className="fw-bold">SOUND</span>
+                </p>
+              </Col>
+              <Col md={12} className="d-flex justify-content-center gap-3">
+                <Card className="card-price bg-var-dark-gray text-center">
+                  <Card.Header as="h5">Paket Small</Card.Header>
+                  <Card.Body>
+                    <Card.Title>
+                      <span className="fs-3 text-var-red">Rp.7.500</span>
+                      <span className="">/7 Hari</span>
+                    </Card.Title>
+                    <Card.Text>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Music Kualitas Terbaik</li>
+                        <li>Bebas Akses Music Selama 7 Hari</li>
+                        <li>Help center access</li>
+                        <li>-</li>
+                      </ul>
+                    </Card.Text>
+                    <button className="btn-red px-5" onClick={() => handleBuy("7500")}>
+                      {" "}
+                      Buy
+                    </button>
+                  </Card.Body>
+                </Card>
 
-            <Card className="card-price bg-var-dark-gray text-center">
-              <Card.Header as="h5">Paket Reguler</Card.Header>
-              <Card.Body>
-                <Card.Title>
-                  <span className="fs-3 text-var-red">Rp.20.000</span>
-                  <span className="">/Bulan</span>
-                </Card.Title>
-                <Card.Text>
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li>Music Kualitas Terbaik</li>
-                    <li>Bebas Akses Music Selama 30 Hari</li>
-                    <li>Help center access</li>
-                    <li>-</li>
-                  </ul>
-                </Card.Text>
-                <button className="btn-red px-5" onClick={() => handleBuy("20000")}>
-                  {" "}
-                  Buy
-                </button>
-              </Card.Body>
-            </Card>
-            <Card className="card-price bg-var-dark-gray text-center">
-              <Card.Header as="h5">Paket Puas</Card.Header>
-              <Card.Body>
-                <Card.Title>
-                  <span className="fs-3 text-var-red">Rp.40.000</span>
-                  <span className="">/3Bulan</span>
-                </Card.Title>
-                <Card.Text>
-                  <ul class="list-unstyled mt-3 mb-4">
-                    <li>Music Kualitas Terbaik</li>
-                    <li>Bebas Akses Music Selama 3 Bulan</li>
-                    <li>Dapatkan diskon berlangganan</li>
-                    <li>Help center access</li>
-                  </ul>
-                </Card.Text>
-                <button className="btn-red px-5" onClick={() => handleBuy("40000")}>
-                  Buy
-                </button>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                <Card className="card-price bg-var-dark-gray text-center">
+                  <Card.Header as="h5">Paket Reguler</Card.Header>
+                  <Card.Body>
+                    <Card.Title>
+                      <span className="fs-3 text-var-red">Rp.20.000</span>
+                      <span className="">/Bulan</span>
+                    </Card.Title>
+                    <Card.Text>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Music Kualitas Terbaik</li>
+                        <li>Bebas Akses Music Selama 30 Hari</li>
+                        <li>Help center access</li>
+                        <li>-</li>
+                      </ul>
+                    </Card.Text>
+                    <button className="btn-red px-5" onClick={() => handleBuy("20000")}>
+                      {" "}
+                      Buy
+                    </button>
+                  </Card.Body>
+                </Card>
+                <Card className="card-price bg-var-dark-gray text-center">
+                  <Card.Header as="h5">Paket Puas</Card.Header>
+                  <Card.Body>
+                    <Card.Title>
+                      <span className="fs-3 text-var-red">Rp.40.000</span>
+                      <span className="">/3Bulan</span>
+                    </Card.Title>
+                    <Card.Text>
+                      <ul class="list-unstyled mt-3 mb-4">
+                        <li>Music Kualitas Terbaik</li>
+                        <li>Bebas Akses Music Selama 3 Bulan</li>
+                        <li>Dapatkan diskon berlangganan</li>
+                        <li>Help center access</li>
+                      </ul>
+                    </Card.Text>
+                    <button className="btn-red px-5" onClick={() => handleBuy("40000")}>
+                      Buy
+                    </button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <>
+            <h1>Anda telah berlangganan</h1>
+          </>
+        )}
       </Container>
     </>
   );

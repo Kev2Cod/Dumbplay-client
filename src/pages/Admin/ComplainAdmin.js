@@ -18,7 +18,7 @@ const ComplainAdmin = () => {
   const [show, setShow] = useState(false);
 
   function handleClickChat() {
-    console.log("SHOW");
+    // console.log("SHOW");
     setShow(!show);
   }
 
@@ -76,13 +76,13 @@ const ComplainAdmin = () => {
         };
       });
 
-      console.log(dataContact);
+      // console.log(dataContact);
       setContacts(dataContact);
     });
   };
 
   const onClickContact = (data) => {
-    console.log("On Click Contact ", data);
+    // console.log("On Click Contact ", data);
     setContact(data);
 
     socket.emit("load messages", data.id);

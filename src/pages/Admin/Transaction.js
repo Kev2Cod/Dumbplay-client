@@ -9,42 +9,16 @@ import { UserContext } from "../../context/userContext";
 import { API } from "../../config/api";
 
 const Transaction = () => {
-  // Untuk Navbar Admin
-  // useState
   const [state, dispatch] = useContext(UserContext);
-  const [user, setUser] = useState({});
-
-  const loadUser = async () => {
-    try {
-      const response = await API.get(`/user/${state.user.id}`);
-      console.log(response.data.user.name);
-      setUser(response.data.user.name);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    loadUser();
-  }, [state]);
 
   const title = "Transactions";
   document.title = "Dumbsound | " + title;
 
-  const [transactions, setTransactions] = useState([]);
-
-  useEffect(() => {
-    const loadTransactions = async () => {
-      try {
-        const response = await API.get("/transactions");
-        console.log("GET TRANSAKSI: ", response.data.data);
-        setTransactions(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    loadTransactions();
-  }, []);
+  let { data: transactions } = useQuery("cacheTransactions", async () => {
+    const response = await API.get("/transactions");
+    console.log("GET TRANSAKSI: ", response.data.data);
+    return response.data.data;
+  });
 
   // dropdown profile
   const content = (
@@ -88,7 +62,7 @@ const Transaction = () => {
 
   return (
     <>
-      <NavbarAdmin title={title} nameUser={user} />
+      <NavbarAdmin title={title} nameUser={state.user.name} />
       <div className="container pt-5">
         <div className="mt-4">
           <h4>Incoming Transaction</h4>
@@ -111,9 +85,8 @@ const Transaction = () => {
                 <th scope="row" style={{ height: "80px" }}>{`${index + 1}`}</th>
                 <td>{item.user.name}</td>
                 <td>{remainingActive(item?.startDate, item?.dueDate, item.id)}/Hari</td>
-                <td>active</td>
+                {item.user.subscribe ? <td className="text-var-green">Active</td> : <td className="text-var-red">Shutdown</td>}
                 <td className={`status-transaction-${item.status}`}>{item.status}</td>
-
                 <td>{item.paymentMethod}</td>
                 <td>
                   <OverlayTrigger trigger="click" placement="bottom" overlay={content}>
