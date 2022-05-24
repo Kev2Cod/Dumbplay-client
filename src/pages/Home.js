@@ -16,45 +16,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function Home() {
-  // Untuk Navbar Admin
-  const [state, dispatch] = useContext(UserContext);
-  const [user, setUser] = useState({});
-  console.log("User", state);
-
-  const loadUser = async () => {
-    try {
-      const response = await API.get(`/user/${state.user.id}`);
-      setUser(response.data.user.name);
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    loadUser();
-  }, [user]);
-
-  // ===========================================================
-
   const title = "Home";
   document.title = "Dumbsound | " + title;
 
-  const [musics, setMusics] = useState([]);
+  const [state] = useContext(UserContext);
   const [musicId, setMusicId] = useState("");
   console.log(musicId);
 
   // Fetch Music
-  const fetchMusics = async () => {
+  let { data: musics, isLoading } = useQuery("musicCache", async () => {
     const response = await API.get("/musics");
-    console.log(response.data.data.musics);
-    setMusics(response.data.data.musics);
-  };
-
-  useEffect(() => {
-    fetchMusics();
-  }, [user]);
+    return response.data.data.musics;
+  });
+  console.log(musics);
 
   return (
     <>
-      <Navbar title={title} nameUser={user} />
+      <Navbar title={title} nameUser={state.user.name} />
 
       {/* Banner */}
       <div className="banner">
@@ -71,11 +49,11 @@ export default function Home() {
       <div className="container" style={{ marginBottom: "100px" }}>
         <h4 className="text-center text-var-red mt-4 fw-bold mb-4">Dengarkan Dan Rasakan</h4>
         <div className="musics d-flex flex-wrap gap-2 justify-content-around mt-2">
-          {!state.IsLogin ? (
+          {!state.isLogin ? (
             <>
-              <h1>INI BELUM LOGIN</h1>
-              {musics.map((item) => (
-                <Card className="text-nolink card-music bg-var-dark-gray mb-2">
+              {/* Belum Login */}
+              {musics?.map((item) => (
+                <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
                   {/* Button untuk trigger Login */}
                   <img src={item.thumbnail} class="card-image" alt="" />
                   <div className="d-flex justify-content-between mt-2 ">
@@ -83,21 +61,19 @@ export default function Home() {
                     <span>{item.year}</span>
                   </div>
                   <div className="d-flex justify-content-start mt-2 ">
-                    <span className="text-small">88rising</span>
+                    <span className="text-small">{item.artis.name}</span>
                   </div>
                 </Card>
               ))}
             </>
           ) : (
             <>
-              <h1>INI SUDAH LOGIN</h1>
-
+              {/* Sudah Login */}
               {!state.user.subscribe ? (
+                // belum berlangganan
                 <>
-                  <h1>BELUM BERLANGGANAN</h1>
-
-                  {musics.map((item) => (
-                    <Card className="text-nolink card-music bg-var-dark-gray mb-2">
+                  {musics?.map((item) => (
+                    <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
                       <Link to="/pay">
                         <img src={item.thumbnail} class="card-image" alt="" />
                       </Link>
@@ -114,10 +90,9 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <h1>BELUM BERLANGGANAN</h1>
-
-                  {musics.map((item) => (
-                    <Card className="text-nolink card-music bg-var-dark-gray mb-2">
+                  {/* sudah berlangganan */}
+                  {musics?.map((item) => (
+                    <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
                       <div onClick={() => setMusicId(item)}>
                         <img src={item.thumbnail} class="card-image" alt="" />
                       </div>

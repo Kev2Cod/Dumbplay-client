@@ -64,6 +64,7 @@ function Login(props) {
       // Checking Process
       if (response?.status === 200) {
         // Send data to useContext
+        console.log("DI LOGIN : ", response);
         dispatch({
           type: "LOGIN_SUCCESS",
           payload: response.data.data, // data disimpan ke state global

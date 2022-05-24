@@ -117,9 +117,31 @@ const Pricing = () => {
               <span className="fw-bold">SOUND</span>
             </p>
           </Col>
-          <Col md={12} className="d-flex justify-content-center">
+          <Col md={12} className="d-flex justify-content-center gap-3">
             <Card className="card-price bg-var-dark-gray text-center">
-              <Card.Header as="h5">Raguler</Card.Header>
+              <Card.Header as="h5">Paket Small</Card.Header>
+              <Card.Body>
+                <Card.Title>
+                  <span className="fs-3 text-var-red">Rp.7.500</span>
+                  <span className="">/7 Hari</span>
+                </Card.Title>
+                <Card.Text>
+                  <ul class="list-unstyled mt-3 mb-4">
+                    <li>Music Kualitas Terbaik</li>
+                    <li>Bebas Akses Music Selama 7 Hari</li>
+                    <li>Help center access</li>
+                    <li>-</li>
+                  </ul>
+                </Card.Text>
+                <button className="btn-red px-5" onClick={() => handleBuy("7500")}>
+                  {" "}
+                  Buy
+                </button>
+              </Card.Body>
+            </Card>
+
+            <Card className="card-price bg-var-dark-gray text-center">
+              <Card.Header as="h5">Paket Reguler</Card.Header>
               <Card.Body>
                 <Card.Title>
                   <span className="fs-3 text-var-red">Rp.20.000</span>
@@ -129,12 +151,32 @@ const Pricing = () => {
                   <ul class="list-unstyled mt-3 mb-4">
                     <li>Music Kualitas Terbaik</li>
                     <li>Bebas Akses Music Selama 30 Hari</li>
-                    <li>Dapatkan diskon berlangganan</li>
                     <li>Help center access</li>
+                    <li>-</li>
                   </ul>
                 </Card.Text>
                 <button className="btn-red px-5" onClick={() => handleBuy("20000")}>
                   {" "}
+                  Buy
+                </button>
+              </Card.Body>
+            </Card>
+            <Card className="card-price bg-var-dark-gray text-center">
+              <Card.Header as="h5">Paket Puas</Card.Header>
+              <Card.Body>
+                <Card.Title>
+                  <span className="fs-3 text-var-red">Rp.40.000</span>
+                  <span className="">/3Bulan</span>
+                </Card.Title>
+                <Card.Text>
+                  <ul class="list-unstyled mt-3 mb-4">
+                    <li>Music Kualitas Terbaik</li>
+                    <li>Bebas Akses Music Selama 3 Bulan</li>
+                    <li>Dapatkan diskon berlangganan</li>
+                    <li>Help center access</li>
+                  </ul>
+                </Card.Text>
+                <button className="btn-red px-5" onClick={() => handleBuy("40000")}>
                   Buy
                 </button>
               </Card.Body>
@@ -145,5 +187,4 @@ const Pricing = () => {
     </>
   );
 };
-
 export default Pricing;

@@ -5,7 +5,6 @@ export const UserContext = createContext();
 // init state
 const initialState = {
   isLogin: false,
-  subscribe: false,
   user: {},
 };
 
@@ -18,7 +17,6 @@ const reducer = (state, action) => {
       localStorage.setItem("token", payload.token);
       return {
         isLogin: true,
-        // subscribe: true,
         user: payload,
       };
 
