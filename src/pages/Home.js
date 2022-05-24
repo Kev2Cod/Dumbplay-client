@@ -28,6 +28,7 @@ export default function Home() {
     const response = await API.get("/musics");
     return response.data.data.musics;
   });
+
   console.log(musics);
 
   return (
