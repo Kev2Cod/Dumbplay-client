@@ -7,6 +7,8 @@ import { useQuery } from "react-query";
 
 import Navbar from "../components/Navbar";
 import PlayerMusic from "../components/PlayerMusic";
+import Login from "../components/modal/Login";
+import Register from "../components/modal/Register";
 
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
@@ -18,6 +20,10 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export default function Home() {
   const title = "Home";
   document.title = "Dumbsound | " + title;
+
+  // handle for open login
+  const [isClickLogin, setIsClickLogin] = useState(false);
+  const handleClickLogin = () => setIsClickLogin(!isClickLogin);
 
   const [state] = useContext(UserContext);
   const [musicId, setMusicId] = useState("");
@@ -56,7 +62,9 @@ export default function Home() {
               {musics?.map((item) => (
                 <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
                   {/* Button untuk trigger Login */}
-                  <img src={item.thumbnail} class="card-image" alt="" />
+                  <div onClick={handleClickLogin}>
+                    <img src={item.thumbnail} class="card-image" alt="" />
+                  </div>
                   <div className="d-flex justify-content-between mt-2 ">
                     <span className="fw-bold ">{item.title}</span>
                     <span>{item.year}</span>
@@ -70,7 +78,7 @@ export default function Home() {
           ) : (
             <>
               {/* Sudah Login */}
-              {!state.user.subscribe === 1 ? (
+              {!state.user.subscribe ? (
                 // belum berlangganan
                 <>
                   {musics?.map((item) => (
@@ -121,6 +129,8 @@ export default function Home() {
           <PlayerMusic musicId={musicId} />
         </NavbarMusic>
       )}
+
+      {isClickLogin ? <Login isOpen={isClickLogin} /> : null}
     </>
   );
 }

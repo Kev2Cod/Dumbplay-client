@@ -14,29 +14,16 @@ const Transaction = () => {
   const title = "Transactions";
   document.title = "Dumbsound | " + title;
 
-  // Fetch Transaction
-  let { data: transactions } = useQuery("transactionsCache", async () => {
-    const response = await API.get("/transactions");
-    return response.data.data;
-  });
+  const [transactions, setTransactions] = useState([]);
 
-  // dropdown profile
-  const content = (
-    <Popover variant="dark" id="dropdown" className="list-dropdown ">
-      <Popover.Body className="bg-var-dark-gray">
-        <ul class="list-unstyled ">
-          <>
-            <li>
-              <button className="btn-red text-var-red">Shutdown</button>
-            </li>
-          </>
-        </ul>
-      </Popover.Body>
-    </Popover>
-  );
+  // Fetch Transaction
+  let fetchTransaction = async () => {
+    const response = await API.get("/transactions");
+    setTransactions(response.data.data);
+  };
 
   // Set Duration
-  const remainingActive = (startDate, dueDate, idTransaction) => {
+  const remainingActive = (startDate, dueDate, idTransaction, idUser) => {
     if (!startDate && !dueDate) {
       return 0;
     }
@@ -47,41 +34,73 @@ const Transaction = () => {
     const Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
     // Jika Masa aktif telah habis
     if (Difference_In_Days === 0) {
-      // Set data to History
-      // const setHistory = async () => {
-      //   let dataHistory = {
-      //     startDate: "test",
-      //     dueDate: "test",
-      //     userId: "test",
-      //     attache: "test",
-      //   };
-      //   dataHistory = JSON.stringify(dataHistory);
-
-      //   const response = await API.post("add-history", dataHistory);
-      //   console.log("HISTORY: ", response);
-      // };
-
       // Delete Transaction
       const deleteTransaction = async () => {
-        const config = {
-          headers: {
-            Authorization: "Basic " + localStorage.token,
-          },
-        };
-        const response = await API.delete(`transaction/` + idTransaction, config);
-        console.log("HISTORY: ", response);
+        try {
+          console.log("Hapus Transaksi & ubah status user Berhasi!");
+
+          const config = {
+            headers: {
+              Authorization: "Basic " + localStorage.token,
+              "Content-type": "application/json",
+            },
+          };
+
+          // Delete Transaction
+          await API.delete("transaction/" + idTransaction, config);
+
+          // Ubah status subscribe di user jadi false
+          let setSubscribe = {
+            subscribe: "false",
+          };
+
+          setSubscribe = JSON.stringify(setSubscribe);
+
+          await API.patch("user/" + idUser, setSubscribe, config);
+        } catch (error) {
+          console.log(error);
+        }
       };
 
-      // setHistory();
       deleteTransaction();
       return 0;
     }
     return Difference_In_Days;
   };
 
-  // jika remaining active ada, dan status user active, maka subscribe user jadi true
+  // Delete Transaksi
+  const deleteTransaction = async (idTransaction, idUser) => {
+    try {
+      console.log("Hapus Transaksi & ubah status user Berhasi!");
 
-  // ? tangkap subscribe usernya.
+      const config = {
+        headers: {
+          Authorization: "Basic " + localStorage.token,
+          "Content-type": "application/json",
+        },
+      };
+
+      // Delete Transaction
+      await API.delete("transaction/" + idTransaction, config);
+
+      // Ubah status subscribe di user jadi false
+      let setSubscribe = {
+        subscribe: "false",
+      };
+
+      setSubscribe = JSON.stringify(setSubscribe);
+
+      await API.patch("user/" + idUser, setSubscribe, config);
+
+      fetchTransaction();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
 
   return (
     <>
@@ -107,14 +126,14 @@ const Transaction = () => {
               <tr key={index} className="align-middle text-center">
                 <th scope="row" style={{ height: "80px" }}>{`${index + 1}`}</th>
                 <td>{item.user.name}</td>
-                <td>{remainingActive(item?.startDate, item?.dueDate, item.id)}/Hari</td>
+                <td>{remainingActive(item?.startDate, item?.dueDate, item.id, item.user?.id)}/Hari</td>
                 {item.user.subscribe ? <td className="text-var-green">Active</td> : <td className="text-var-red">Shutdown</td>}
                 <td className={`status-transaction-${item.status}`}>{item.status}</td>
                 <td>{item.paymentMethod}</td>
                 <td>
-                  <OverlayTrigger trigger="click" placement="bottom" overlay={content}>
-                    <img src={IconPolygonDown} alt="" />
-                  </OverlayTrigger>
+                  <button onClick={() => deleteTransaction(item.id, item.user.id)} className="btn-red text-white">
+                    Shutdown
+                  </button>
                 </td>
               </tr>
             ))}

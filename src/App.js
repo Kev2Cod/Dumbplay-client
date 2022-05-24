@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { Home, Transaction, AddMusic, AddArtis, Pricing, Error } from "./pages/Index";
+import { Home, Transaction, AddMusic, AddArtis, Pricing, Error, ListMusic, ListArtis, UpdateMusic, UpdateArtis } from "./pages/Index";
 import Complain from "./pages/Complain";
 import ComplainAdmin from "./pages/Admin/ComplainAdmin";
 
@@ -56,8 +56,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/transactions" element={<Transaction />} />
         <Route path="/pay" element={<Pricing />} />
+        <Route path="/list-music" element={<ListMusic />} />
+        <Route path="/list-artis" element={<ListArtis />} />
         <Route path="/add-music" element={<AddMusic />} />
         <Route path="/add-artis" element={<AddArtis />} />
+        <Route path="/update-music/:id" element={<UpdateMusic />} />
+        <Route path="/update-artis/:id" element={<UpdateArtis />} />
+
         <Route path="/*" element={<Error />} />
       </Routes>
       {state.isLogin ? state?.user?.status === "admin" ? <ComplainAdmin /> : <Complain /> : <></>}

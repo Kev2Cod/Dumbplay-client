@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Modal, Button, Alert } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+import Register from "./Register";
 
 import { API } from "../../config/api";
 import { UserContext } from "../../context/userContext";
@@ -10,13 +12,21 @@ function Login(props) {
 
   const navigate = useNavigate();
   const [state, dispatch] = useContext(UserContext);
-  // console.log(state);
+
+  // Control open register
+  const [isClickRegister, setIsClickRegister] = useState(false);
+  const handleClickRegister = () => setIsClickRegister(!isClickRegister);
 
   const title = "Login";
   document.title = "Dumbmers | " + title;
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleRegister = () => {
+    setShow(false);
+    handleClickRegister();
+  };
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [message, setMessage] = useState(null);
@@ -119,13 +129,17 @@ function Login(props) {
             </form>
             <div className="d-flex justify-content-center mt-3">
               <p>
-                Already have an account ? Klik <span className="fw-bold">Here</span>{" "}
+                You don't have account ? Klik
+                <Link to="" onClick={handleRegister} style={{ color: "white", textDecoration: "none", fontWeight: "bold" }}>
+                  &nbsp;Here
+                </Link>
               </p>
             </div>
           </div>
         </Modal.Body>
       </Modal>
       {/*  */}
+      {isClickRegister ? <Register isOpen={isClickRegister} /> : null}
     </>
   );
 }

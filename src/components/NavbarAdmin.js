@@ -15,7 +15,6 @@ export default function NavbarAdmin({ title, nameUser }) {
   const navigate = useNavigate();
 
   const [state, dispatch] = useContext(UserContext);
-  // console.log("userContext", state);
 
   const logout = () => {
     dispatch({
@@ -24,10 +23,6 @@ export default function NavbarAdmin({ title, nameUser }) {
     navigate("/");
   };
 
-  const [isClickLogin, setIsClickLogin] = useState(false);
-  const [isClickRegister, setIsClickRegister] = useState(false);
-
-  // dropdown profile
   const content = (
     <Popover variant="dark" id="dropdown" className="list-dropdown ">
       <Popover.Body className="bg-var-dark-gray">
@@ -35,15 +30,15 @@ export default function NavbarAdmin({ title, nameUser }) {
           {title === "Transactions" ? (
             <>
               <li className="mb-3">
-                <Link to="/add-music">
+                <Link to="/list-music">
                   <img src={AddMusic} alt="" width="25" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Add Music</span>
+                  <span className="fw-bold text-decoration-none text-white">List Music</span>
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/add-artis">
+                <Link to="/list-artis">
                   <img src={AddArtis} alt="" width="20" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Add Artis</span>
+                  <span className="fw-bold text-decoration-none text-white">List Artis</span>
                 </Link>
               </li>
               <li className="mb-3">
@@ -53,7 +48,7 @@ export default function NavbarAdmin({ title, nameUser }) {
                 </button>
               </li>
             </>
-          ) : title === "Add Music" ? (
+          ) : title === "List Music" ? (
             <>
               <li className="mb-3">
                 <Link to="/transactions">
@@ -62,9 +57,9 @@ export default function NavbarAdmin({ title, nameUser }) {
                 </Link>
               </li>
               <li className="mb-3">
-                <Link to="/add-artis">
+                <Link to="/List-artis">
                   <img src={AddArtis} alt="" width="20" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Add Artis</span>
+                  <span className="fw-bold text-decoration-none text-white">List Artis</span>
                 </Link>
               </li>
               <li className="mb-3">
@@ -76,10 +71,10 @@ export default function NavbarAdmin({ title, nameUser }) {
             </>
           ) : (
             <>
-              <li className="mb-3 border ">
-                <Link to="/add-music">
+              <li className="mb-3 ">
+                <Link to="/list-music">
                   <img src={AddMusic} alt="" width="25" className="me-2" />
-                  <span className="fw-bold text-decoration-none text-white">Add Music</span>
+                  <span className="fw-bold text-decoration-none text-white">List Music</span>
                 </Link>
               </li>
               <li className="mb-3">

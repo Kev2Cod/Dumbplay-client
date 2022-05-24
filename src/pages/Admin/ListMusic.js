@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
 import NavbarAdmin from "../../components/NavbarAdmin";
@@ -6,100 +7,87 @@ import NavbarAdmin from "../../components/NavbarAdmin";
 import { UserContext } from "../../context/userContext";
 import { API } from "../../config/api";
 
-export const ListMusic = () => {
-  const title = "Home";
+const ListMusic = () => {
+  const title = "List Music";
   document.title = "Dumbsound | " + title;
+
+  const navigate = useNavigate();
 
   const [state] = useContext(UserContext);
 
-  let { data: musics } = useQuery("");
+  const [musics, setMusics] = useState([]);
+
+  const fecthMusic = async () => {
+    const response = await API.get("/musics");
+    setMusics(response.data.data.musics);
+  };
+
+  // Delete Music
+  const deleteMusic = async (idMusic) => {
+    try {
+      await API.delete(`/music/${idMusic}`);
+      fecthMusic();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Navigation
+  const addMusic = () => {
+    navigate("/add-music");
+  };
+
+  const handleUpdate = (id) => {
+    navigate(`/update-music/${id}`);
+  };
+
+  // UseEffect
+  useEffect(() => {
+    fecthMusic();
+  }, []);
 
   return (
     <>
       <NavbarAdmin title={title} nameUser={state.user.name} />
-      <div className="container mt-3 mb-5">
-        <div className="d-flex">
-          <h4>List Product</h4>
-          {/* <button onClick={addProduct} className="btn bg-var-dark-gray text-white ms-auto px-4">
-            Add
-          </button> */}
+      <div className="container pt-5">
+        <div className="d-flex mt-5">
+          <h4>List Music</h4>
+          <button onClick={addMusic} className="btn bg-var-dark-gray text-white ms-auto px-4">
+            Add Music
+          </button>
         </div>
-        {products?.length !== 0 ? (
-          <table className="table table-dark table-striped mt-3 ">
-            <thead>
-              <tr className="text-center">
-                <th scope="col">No</th>
-                <th scope="col">thumbnail</th>
-                <th scope="col">title</th>
-                <th scope="col">attache</th>
-                <th scope="col"></th>
-                <th scope="col">Qty</th>
-                <th scope="col">Action</th>
+        <table className="table table-dark table-striped mt-4">
+          <thead>
+            <tr className="text-center">
+              <th scope="col">No</th>
+              <th scope="col">Thumbnail</th>
+              <th scope="col">Year</th>
+              <th scope="col">Artis</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {musics?.map((item, index) => (
+              <tr key={index} className="align-middle text-center">
+                <th scope="row" style={{ height: "80px" }}>{`${index + 1}`}</th>
+                <td>
+                  <img src={item.thumbnail} alt="" width="50" />
+                </td>
+                <td>{item.title}</td>
+                <td>{item.year}</td>
+                <td>
+                  <button className="btn-green text-white me-2">Edit</button>
+                  <button onClick={() => deleteMusic(item.id)} className="btn-red text-white">
+                    Delete
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {!isError ? (
-                <>
-                  {!isLoading ? (
-                    <>
-                      {products?.map((item, index) => (
-                        <tr key={item.id} className="align-middle text-center">
-                          <th scope="row">{`${index + 1}`}</th>
-                          <td>
-                            <img src={item.image} alt="" className="image-list-product" />
-                          </td>
-                          <td> {`${item.name.slice(0, 16)}...`}</td>
-                          <td>{`${item.desc.slice(0, 16)}`}</td>
-                          <td>{convertRupiah.format(item.price)}</td>
-                          <td>{item.qty}</td>
-                          <td className="text-center">
-                            <button onClick={() => handleUpdate(item.id)} className="btn bg-var-green text-white fw-bold " style={{ width: "6rem" }}>
-                              Edit
-                            </button>
-
-                            <button to="/delete-product" onClick={() => handleDelete(item.id)} className="btn bg-var-red text-white fw-bold m-1" style={{ width: "6rem" }} data-bs-toggle="modal" data-bs-target="#exampleModal">
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      <tr>
-                        <th colSpan={7} className="p-3 ">
-                          <div className="sk-chase m-auto">
-                            <div className="sk-chase-dot"></div>
-                            <div className="sk-chase-dot"></div>
-                            <div className="sk-chase-dot"></div>
-                            <div className="sk-chase-dot"></div>
-                            <div className="sk-chase-dot"></div>
-                            <div className="sk-chase-dot"></div>
-                          </div>
-                        </th>
-                      </tr>
-                    </>
-                  )}
-                </>
-              ) : (
-                <>
-                  <tr className="align-middle text-center ">
-                    <th colSpan={7}>
-                      <span className="fw-light">Connection error, Please refresh browser....</span>
-                    </th>
-                  </tr>
-                </>
-              )}
-            </tbody>
-          </table>
-        ) : (
-          <div className="text-center mt-5">
-            {/* <img src={imgEmpty} style={{ width: "30%" }} alt="empty" /> */}
-            <h5 className="mt-4">No Data Product</h5>
-          </div>
-        )}
-        {/* <DeleteData setConfirmDelete={setConfirmDelete} show={show} handleClose={handleClose} /> */}
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );
 };
+
+export default ListMusic;

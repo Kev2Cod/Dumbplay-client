@@ -1,5 +1,8 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import { Modal, Button, Alert } from "react-bootstrap";
+
+import Login from "./Login";
 
 import { API } from "../../config/api";
 
@@ -7,11 +10,18 @@ function Register(props) {
   const title = "Register";
   document.title = "DumbSound | " + title;
   const [show, setShow] = useState(props.isOpen);
-  console.log(show);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  //   const [state, dispatch] = useContext(UserContext); // useContext
+
+  const [isClickLogin, setIsClickLogin] = useState(false);
+  const handleClickLogin = () => setIsClickLogin(!isClickLogin);
+
+  const handleLogin = () => {
+    setShow(false);
+    handleClickLogin();
+  };
+
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -111,13 +121,17 @@ function Register(props) {
             </form>
             <div className="d-flex justify-content-center mt-3">
               <p>
-                Already have an account ? Klik <span className="fw-bold">Here</span>{" "}
+                Already have an account ? Klik
+                <Link to="" onClick={handleLogin} style={{ color: "white", textDecoration: "none", fontWeight: "bold" }}>
+                  &nbsp;Here
+                </Link>
               </p>
             </div>
           </div>
         </Modal.Body>
       </Modal>
-      {/*  */}
+
+      {isClickLogin ? <Login isOpen={isClickLogin} /> : null}
     </>
   );
 }
