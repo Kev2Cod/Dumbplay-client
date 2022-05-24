@@ -18,7 +18,6 @@ function App() {
 
   // Init user context
   const [state, dispatch] = useContext(UserContext);
-  // console.log("userContext", state.user.status, state.isLogin);
 
   // Create function for "check user token"
   const checkUser = async () => {

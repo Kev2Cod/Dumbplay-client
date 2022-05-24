@@ -9,14 +9,14 @@ import { UserContext } from "../../context/userContext";
 import { API } from "../../config/api";
 
 const Transaction = () => {
-  const [state, dispatch] = useContext(UserContext);
+  const [state] = useContext(UserContext);
 
   const title = "Transactions";
   document.title = "Dumbsound | " + title;
 
-  let { data: transactions } = useQuery("cacheTransactions", async () => {
+  // Fetch Transaction
+  let { data: transactions } = useQuery("transactionsCache", async () => {
     const response = await API.get("/transactions");
-    console.log("GET TRANSAKSI: ", response.data.data);
     return response.data.data;
   });
 
@@ -38,22 +38,45 @@ const Transaction = () => {
   // Set Duration
   const remainingActive = (startDate, dueDate, idTransaction) => {
     if (!startDate && !dueDate) {
-      //? fungsinya
       return 0;
     }
 
     const date1 = new Date();
     const date2 = new Date(dueDate);
     const Difference_In_Time = date2.getTime() - date1.getTime();
-    const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-    if (Difference_In_Days <= 0) {
+    const Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
+    // Jika Masa aktif telah habis
+    if (Difference_In_Days === 0) {
       // Set data to History
+      // const setHistory = async () => {
+      //   let dataHistory = {
+      //     startDate: "test",
+      //     dueDate: "test",
+      //     userId: "test",
+      //     attache: "test",
+      //   };
+      //   dataHistory = JSON.stringify(dataHistory);
+
+      //   const response = await API.post("add-history", dataHistory);
+      //   console.log("HISTORY: ", response);
+      // };
 
       // Delete Transaction
+      const deleteTransaction = async () => {
+        const config = {
+          headers: {
+            Authorization: "Basic " + localStorage.token,
+          },
+        };
+        const response = await API.delete(`transaction/` + idTransaction, config);
+        console.log("HISTORY: ", response);
+      };
 
+      // setHistory();
+      deleteTransaction();
       return 0;
     }
-    return Math.round(Difference_In_Days);
+    return Difference_In_Days;
   };
 
   // jika remaining active ada, dan status user active, maka subscribe user jadi true
