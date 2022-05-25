@@ -9,7 +9,16 @@ function PlayerMusic({ musicId }) {
     <div>
       <Navbar fluid className="fixed-bottom navPlay">
         <div className="d-flex align-items-center">
-          <img src={musicId?.thumbnail} alt="" className="img-music mx-4" />
+          <img
+            src={musicId?.thumbnail}
+            style={{
+              Width: "50px",
+              Height: "50px",
+              objectFit: "cover",
+            }}
+            alt=""
+            className="img-music mx-4"
+          />
           <span className="judul-music">
             {musicId?.title} - {musicId?.artis.name}
           </span>

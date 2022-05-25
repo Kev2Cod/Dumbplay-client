@@ -28,10 +28,12 @@ const Transaction = () => {
       return 0;
     }
 
+    // perhitungan hari
     const date1 = new Date();
     const date2 = new Date(dueDate);
     const Difference_In_Time = date2.getTime() - date1.getTime();
     const Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24));
+
     // Jika Masa aktif telah habis
     if (Difference_In_Days === 0) {
       // Delete Transaction
@@ -47,7 +49,7 @@ const Transaction = () => {
           };
 
           // Delete Transaction
-          await API.delete("transaction/" + idTransaction, config);
+          await API.delete("/transaction/" + idTransaction, config);
 
           // Ubah status subscribe di user jadi false
           let setSubscribe = {
@@ -81,7 +83,7 @@ const Transaction = () => {
       };
 
       // Delete Transaction
-      await API.delete("transaction/" + idTransaction, config);
+      await API.delete("/transaction/" + idTransaction, config);
 
       // Ubah status subscribe di user jadi false
       let setSubscribe = {

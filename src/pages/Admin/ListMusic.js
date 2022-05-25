@@ -71,7 +71,15 @@ const ListMusic = () => {
               <tr key={index} className="align-middle text-center">
                 <th scope="row" style={{ height: "80px" }}>{`${index + 1}`}</th>
                 <td>
-                  <img src={item.thumbnail} alt="" width="50" />
+                  <img
+                    src={item.thumbnail}
+                    style={{
+                      objectFit: "cover",
+                    }}
+                    alt=""
+                    width="70"
+                    height="70"
+                  />
                 </td>
                 <td>{item.title}</td>
                 <td>{item.year}</td>
