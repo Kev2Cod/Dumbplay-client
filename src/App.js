@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { Home, Transaction, AddMusic, AddArtis, Pricing, Error, ListMusic, ListArtis, UpdateMusic, UpdateArtis } from "./pages/Index";
+import { Home, Transaction, AddMusic, AddArtis, Pricing, Error, ListMusic, ListArtis, UpdateMusic, UpdateArtis, TransactionSuccess } from "./pages/Index";
 import Complain from "./pages/Complain";
 import ComplainAdmin from "./pages/Admin/ComplainAdmin";
 
@@ -62,6 +62,7 @@ function App() {
         <Route path="/add-artis" element={<AddArtis />} />
         <Route path="/update-music/:id" element={<UpdateMusic />} />
         <Route path="/update-artis/:id" element={<UpdateArtis />} />
+        <Route path="/transaction-success" element={<TransactionSuccess />} />
 
         <Route path="/*" element={<Error />} />
       </Routes>

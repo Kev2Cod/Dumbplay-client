@@ -13,7 +13,6 @@ import Register from "../components/modal/Register";
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
 
-import Logo from "../assets/icon/logo-shapes.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
@@ -55,18 +54,18 @@ export default function Home() {
       {/* Cards Music */}
       <div className="container" style={{ marginBottom: "100px" }}>
         <h4 className="text-center text-var-red mt-4 fw-bold mb-4">Dengarkan Dan Rasakan</h4>
-        <div className="musics d-flex flex-wrap gap-2 justify-content-around mt-2">
+        <div className="musics d-flex flex-wrap gap-3 justify-content-start mt-2">
           {!state.isLogin ? (
             <>
               {/* Belum Login */}
               {musics?.map((item) => (
-                <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
+                <Card key={item.id} className="card-music bg-var-dark-gray mb-2">
                   {/* Button untuk trigger Login */}
                   <div onClick={handleClickLogin}>
                     <img src={item.thumbnail} class="card-image" alt="" />
                   </div>
                   <div className="d-flex justify-content-between mt-2 ">
-                    <span className="fw-bold ">{item.title}</span>
+                    <span className="fw-bold ">{item.title.slice(0, 5)}</span>
                     <span>{item.year}</span>
                   </div>
                   <div className="d-flex justify-content-start mt-2 ">
@@ -79,7 +78,7 @@ export default function Home() {
             <>
               {/* Sudah Login */}
               {!state.user.subscribe ? (
-                // belum berlangganan
+                // Belum berlangganan
                 <>
                   {musics?.map((item) => (
                     <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
@@ -98,7 +97,7 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  {/* sudah berlangganan */}
+                  {/* Sudah berlangganan */}
                   {musics?.map((item) => (
                     <Card key={item.id} className="text-nolink card-music bg-var-dark-gray mb-2">
                       <div onClick={() => setMusicId(item)}>

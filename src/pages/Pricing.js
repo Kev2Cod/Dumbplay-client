@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
 
+import imgSubscribe from "../assets/image/subscribe.svg";
+
 const Pricing = () => {
   const navigate = useNavigate();
 
@@ -174,7 +176,10 @@ const Pricing = () => {
           </>
         ) : (
           <>
-            <h1>Anda telah berlangganan</h1>
+            <div className="text-center">
+              <img src={imgSubscribe} alt="subscribe" width="300" />
+              <h3 className="mt-3">Selamat Anda telah berlangganan</h3>
+            </div>
           </>
         )}
       </Container>

@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar } from "react-bootstrap";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
+import "../styles/musicPlayer.css";
 
 function PlayerMusic({ musicId }) {
   console.log(musicId?.attache);
@@ -23,7 +24,7 @@ function PlayerMusic({ musicId }) {
             {musicId?.title} - {musicId?.artis.name}
           </span>
         </div>
-        <AudioPlayer autoPlay src={musicId?.attache} layout="horizontal" className="player" />
+        <AudioPlayer autoPlay src={musicId?.attache} layout="horizontal" />
       </Navbar>
     </div>
   );
