@@ -90,7 +90,7 @@ export default function Home() {
                         <span>{item.year}</span>
                       </div>
                       <div className="d-flex justify-content-start mt-2 ">
-                        <span className="text-small">88rising</span>
+                        <span className="text-small">{item.artis.name}</span>
                       </div>
                     </Card>
                   ))}
@@ -108,7 +108,7 @@ export default function Home() {
                         <span>{item.year}</span>
                       </div>
                       <div className="d-flex justify-content-between mt-2 ">
-                        <span className="text-small">88rising</span>
+                        <span className="text-small">{item.artis.name}</span>
                         <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
                       </div>
                     </Card>
