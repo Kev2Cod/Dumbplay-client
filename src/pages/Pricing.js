@@ -69,7 +69,7 @@ const Pricing = () => {
         onSuccess: function (result) {
           /* You may add your own implementation here */
           console.log(result);
-          navigate("/");
+          navigate("/transaction-success");
         },
         onPending: function (result) {
           /* You may add your own implementation here */

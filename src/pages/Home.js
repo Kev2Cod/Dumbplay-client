@@ -8,7 +8,6 @@ import { useQuery } from "react-query";
 import Navbar from "../components/Navbar";
 import PlayerMusic from "../components/PlayerMusic";
 import Login from "../components/modal/Login";
-import Register from "../components/modal/Register";
 
 import { API } from "../config/api";
 import { UserContext } from "../context/userContext";
@@ -65,7 +64,7 @@ export default function Home() {
                     <img src={item.thumbnail} class="card-image" alt="" />
                   </div>
                   <div className="d-flex justify-content-between mt-2 ">
-                    <span className="fw-bold ">{item.title.slice(0, 5)}</span>
+                    <span className="fw-bold ">{item.title.slice(0, 15)}</span>
                     <span>{item.year}</span>
                   </div>
                   <div className="d-flex justify-content-start mt-2 ">
@@ -90,7 +89,7 @@ export default function Home() {
                         <span>{item.year}</span>
                       </div>
                       <div className="d-flex justify-content-start mt-2 ">
-                        <span className="text-small">{item.artis.name}</span>
+                        <span className="text-small">{item.title.slice(0, 15)}</span>
                       </div>
                     </Card>
                   ))}
@@ -108,7 +107,7 @@ export default function Home() {
                         <span>{item.year}</span>
                       </div>
                       <div className="d-flex justify-content-start mt-2 ">
-                        <span className="text-small">{item.artis.name}</span>
+                        <span className="text-small">{item.title.slice(0, 15)}</span>
                       </div>
                     </Card>
                   ))}

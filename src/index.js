@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter } from "react-router-dom";
 import { UserContextProvider } from "./context/userContext";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ToastContainer } from "react-toastify";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -18,6 +19,7 @@ root.render(
     <UserContextProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
+          <ToastContainer position="top-center" autoClose={2000} hideProgressBar newestOnTop closeOnClick rtl={false} pauseOnFocusLoss={false} draggable={false} pauseOnHover />
           <App />
         </BrowserRouter>
       </QueryClientProvider>

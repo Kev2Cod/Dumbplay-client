@@ -1,6 +1,8 @@
-import React, { useState, useContext } from "react";
-import { Modal, Button, Alert } from "react-bootstrap";
+import React, { useState, useContext, useRef } from "react";
+import { Modal, Alert } from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
+
+import { toast } from "react-toastify";
 
 import Register from "./Register";
 
@@ -65,7 +67,6 @@ function Login(props) {
       const response = await API.post("/login", body, config);
       console.log(response);
 
-      navigate("/");
       setShow(false);
 
       // set loading false
@@ -86,6 +87,7 @@ function Login(props) {
       } else {
         navigate("/");
       }
+      toast.success("Login Berhasil");
     } catch (error) {
       const alert = (
         <Alert variant="danger" className="py-1 text-center">
@@ -130,7 +132,7 @@ function Login(props) {
             <div className="d-flex justify-content-center mt-3">
               <p>
                 You don't have account ? Klik
-                <Link to="" onClick={handleRegister} style={{ color: "white", textDecoration: "none", fontWeight: "bold" }}>
+                <Link to="" onClick={handleClickRegister} style={{ color: "white", textDecoration: "none", fontWeight: "bold" }}>
                   &nbsp;Here
                 </Link>
               </p>

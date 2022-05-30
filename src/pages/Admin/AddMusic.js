@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import NavbarAdmin from "../../components/NavbarAdmin";
 
+import { toast } from "react-toastify";
+
 import TagFile from "../../assets/icon/tag-file.svg";
 
 import { UserContext } from "../../context/userContext";
 import { API } from "../../config/api";
 
 const AddMusic = () => {
-  // Untuk Navbar Admin
-  // useState
   const [state, dispatch] = useContext(UserContext);
   const [user, setUser] = useState({});
 
@@ -25,7 +25,6 @@ const AddMusic = () => {
     loadUser();
   }, [state]);
 
-  // ===============================
   const navigate = useNavigate();
 
   const titleWeb = "Add Music";
@@ -92,8 +91,10 @@ const AddMusic = () => {
 
       setLoadingSubmit(false);
       navigate("/list-music");
+      toast.success("Add Music Success");
     } catch (error) {
       console.log(error);
+      toast.error("Add Music Failed");
       setLoadingSubmit(false);
     }
   };

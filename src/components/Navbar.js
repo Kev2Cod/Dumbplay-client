@@ -1,12 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Navbar, Nav, Container, Dropdown, Button, Popover, OverlayTrigger } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+
 import Logo from "../assets/icon/logo-shapes.svg";
 import Avatar from "react-avatar";
-
 import Pay from "../assets/icon/bill.svg";
-import AddMusic from "../assets/icon/add-music.svg";
-import AddArtis from "../assets/icon/add-artis.svg";
 import Logout from "../assets/icon/logout.svg";
 
 import Login from "./modal/Login";

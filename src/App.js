@@ -1,6 +1,8 @@
-import "./App.css";
 import React, { useContext, useEffect } from "react";
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import "./App.css";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+
 import Navbar from "./components/Navbar";
 import { Home, Transaction, AddMusic, AddArtis, Pricing, Error, ListMusic, ListArtis, UpdateMusic, UpdateArtis, TransactionSuccess } from "./pages/Index";
 import Complain from "./pages/Complain";
@@ -14,7 +16,7 @@ if (localStorage.token) {
 }
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Init user context
   const [state, dispatch] = useContext(UserContext);

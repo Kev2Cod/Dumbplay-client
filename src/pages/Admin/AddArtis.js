@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { Container } from "react-bootstrap";
 import "../../styles/loading.css";
+import { toast } from "react-toastify";
 
 import NavbarAdmin from "../../components/NavbarAdmin";
 
@@ -53,8 +54,8 @@ const AddArtis = () => {
   };
 
   const handleSubmit = async (e) => {
-    setLoadingSubmit(true);
     e.preventDefault();
+
     try {
       setLoadingSubmit(false);
 
@@ -63,12 +64,15 @@ const AddArtis = () => {
           "Content-type": "application/json",
         },
       };
+
       const body = JSON.stringify(form);
       const response = await API.post("/add-artis", body, config);
       console.log("berhasi!", response);
+      toast.success("Add Artis Success");
       navigate("/list-artis");
     } catch (error) {
       console.log(error);
+      toast.error("Add Artis Failed");
       setLoadingSubmit(false);
     }
   };

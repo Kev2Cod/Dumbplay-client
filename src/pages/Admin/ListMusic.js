@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
+import { toast } from "react-toastify";
+
 import NavbarAdmin from "../../components/NavbarAdmin";
 
 import { UserContext } from "../../context/userContext";
@@ -26,8 +28,10 @@ const ListMusic = () => {
   const deleteMusic = async (idMusic) => {
     try {
       await API.delete(`/music/${idMusic}`);
+      toast.success("Delete Music Success");
       fecthMusic();
     } catch (error) {
+      toast.error("Delete Music Failed");
       console.log(error);
     }
   };
@@ -41,7 +45,6 @@ const ListMusic = () => {
     navigate(`/update-music/${id}`);
   };
 
-  // UseEffect
   useEffect(() => {
     fecthMusic();
   }, []);
