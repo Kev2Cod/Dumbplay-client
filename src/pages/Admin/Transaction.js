@@ -59,9 +59,11 @@ const Transaction = () => {
           };
 
           setSubscribe = JSON.stringify(setSubscribe);
-
+          // change status subscribe in user to false
           await API.patch("user/" + idUser, setSubscribe, config);
+          toast.success("Delete Transaction Success");
         } catch (error) {
+          toast.failed("Delete Transaction Failed");
           console.log(error);
         }
       };

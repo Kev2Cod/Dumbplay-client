@@ -65,7 +65,6 @@ function App() {
         <Route path="/update-music/:id" element={<UpdateMusic />} />
         <Route path="/update-artis/:id" element={<UpdateArtis />} />
         <Route path="/transaction-success" element={<TransactionSuccess />} />
-
         <Route path="/*" element={<Error />} />
       </Routes>
       {state.isLogin ? state?.user?.status === "admin" ? <ComplainAdmin /> : <Complain /> : <></>}
